@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <title>Wine List Maker</title>
+  <link rel='stylesheet' href='../styles/main.css'>
+</head>
+
+<body>
+  <section id='buttons'>
+    <button id='add'>Add</button>
+    <button id='clear'>Clear</button>
+  </section>
+  <section id='space'>
+  </section>
+  <section id='wind_list'>
+    <table>
+      <thead>
+        <th id='wine_name' style='width: 120'>Name</th>
+        <th id='wine_category'>Category</th>
+        <th id='wine_type'>Type</th>
+        <th id='wine_year'>Year</th>
+        <th id='wine_winery'>Winery</th>
+        <th id='wine_year_pur'>Year Purchased</th>
+        <th id='wine_rating'>Rating</th>
+      </thead>
+      <tbody id='winelistbody'>
+
+      </tbody>
+    </table>
+
+  </section>
+  <footer>
+    <p id='notice'>&bull;&nbsp;When a item is double clicked, it is removed from the list</p>
+  </footer>
+
+  <script>
+    const electron = require('electron');
+    const { ipcRenderer } = electron;
+
+    const btnAdd = document.getElementById('add');
+    const btnClear = document.getElementById('clear');
+    const tblList = document.getElementById('winelistbody')
+
+    //catch add item
+    ipcRenderer.on('item:add', function (e, items) {
+      const newTr = document.createElement('tr');
+      let newTd;
+      let newItem;
+
+      for (i = 0; i < items.length; i++) {
+        newTd = document.createElement('td');
+        if (i == 3 || i == 5 || i == 6) {
+          newTd.style.textAlign = 'center';
+        }
+        newItem = document.createTextNode(items[i]);
+        newTd.appendChild(newItem);
+        newTr.appendChild(newTd);
+      }
+
+      tblList.appendChild(newTr);
+    });
+
+    //item clear
+    ipcRenderer.on('item:clear', function () {
+      tblList.innerHTML = '';
+    });
+
+    //remove item
+    tblList.addEventListener('dblclick', removeItem);
+
+    function removeItem(e) {
+      e.target.parentNode.remove();
+    }
+
+    //call add function in main.js
+    btnAdd.addEventListener('click', openAddWindow);
+
+    function openAddWindow(e) {
+      ipcRenderer.send('open:addWindow');//send to main.js
+    }
+
+    //call clear items function in main.js
+    btnClear.addEventListener('click', clearItems);
+
+    function clearItems(e) {
+      ipcRenderer.send('clear:items');//send to main.js
+    }
+  </script>
+
+</body>
+
+</html>

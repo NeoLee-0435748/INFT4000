@@ -1,0 +1,14 @@
+{
+  "name": "winecollectionapp",
+  "version": "1.0.0",
+  "description": "Electron Lab #1",
+  "main": "./scripts/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Neo Lee",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^10.1.2"
+  }
+}

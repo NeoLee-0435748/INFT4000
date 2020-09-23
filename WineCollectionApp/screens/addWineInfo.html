@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <title>Add Wine</title>
+  <link rel='stylesheet' href='../styles/addWineInfo.css'>
+</head>
+<!--
+  Ref: http://jsfiddle.net/lemonkazi/ucfxywh6/
+-->
+
+<body>
+  <form>
+    <div>
+      <table>
+        <tr>
+          <td class='td_title'>
+            Name:
+          </td>
+          <td class='td_content'>
+            <input type='text' id='name' autofocus>
+          </td>
+        </tr>
+        <tr>
+          <td class='td_title'>
+            Category:
+          </td>
+          <td class='td_content'>
+            <select id='category' name='category'>
+              <option value='Red'>Red</option>
+              <option value='White'>White</option>
+              <option value='Dessert'>Dessert</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class='td_title'>
+            Type:
+          </td>
+          <td class='td_content'>
+            <select id='red_type' name='category'>
+              <option value='Cabernet'>Cabernet</option>
+              <option value='Cabernet Sauvignon'>Cabernet Sauvignon</option>
+              <option value='Chardonnay'>Chardonnay</option>
+              <option value='Malbec'>Malbec</option>
+              <option value='Merlot'>Merlot</option>
+              <option value='Sirah / Shiraz'>Sirah / Shiraz</option>
+              <option value='Pinot Noir'>Pinot Noir</option>
+              <option value='Port'>Port</option>
+              <option value='Other Red Varieties'>Other Red Varieties</option>
+              <option value='Red Blends'>Red Blends</option>
+            </select>
+            <select id='white_type' name='category' hidden>
+              <option value='Riesling'>Riesling</option>
+              <option value='Sauvignon Blanc'>Sauvignon Blanc</option>
+              <option value='Verdelho'>Verdelho</option>
+              <option value='Semillon'>Semillon</option>
+              <option value='Chardonnay'>Chardonnay</option>
+              <option value='Pinot Gris / Pinot Grigio'>Pinot Gris / Pinot Grigio</option>
+              <option value='Other White Varieties'>Other White Varieties</option>
+              <option value='White Blends'>White Blends</option>
+            </select>
+            <select id='dessert_type' name='category' hidden>
+              <option value='Eiswein (Ice Wine)'>Eiswein (Ice Wine)</option>
+              <option value='Sauternes'>Sauternes</option>
+              <option value='Other Dessert Varieties'>Other Dessert Varieties</option>
+              <option value='Dessert Blends'>Dessert Blends</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class='td_title'>
+            Year:
+          </td>
+          <td class='td_content'>
+            <input type='number' id='year' min='1900' max='2199' step='1' value='2020' />
+          </td>
+        </tr>
+        <tr>
+          <td class='td_title'>
+            Winery:
+          </td>
+          <td class='td_content'>
+            <input type='text' id='winery'>
+          </td>
+        </tr>
+        <tr>
+          <td class='td_title'>
+            Year Purchased:
+          </td>
+          <td class='td_content'>
+            <input type='number' id='purch' min='1900' max='2199' step='1' value='2020' />
+          </td>
+        </tr>
+        <tr>
+          <td class='td_title'>
+            Rating:
+          </td>
+          <td class='td_content'>
+            <input type='number' id='rating' min='1' max='10' step='1' value='1' />
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div id='div_button'>
+      <button type='submit' id='btn_submit'>Add</button>
+    </div>
+  </form>
+
+  <script>
+    const electron = require('electron')
+    const { ipcRenderer } = electron
+    const form = document.querySelector('form');
+    const selCategory = document.getElementById('category');
+
+    //add data
+    form.addEventListener('submit', submitForm);
+
+    function submitForm(e) {
+      e.preventDefault();
+      const valCategory = document.querySelector('#category').options[document.querySelector('#category').selectedIndex].value;
+      let valType = '';
+      if (valCategory.valueOf() == 'Red') {
+        valType = document.querySelector('#red_type').options[document.querySelector('#red_type').selectedIndex].value;
+      }
+      else if (valCategory.valueOf() == 'White') {
+        valType = document.querySelector('#white_type').options[document.querySelector('#white_type').selectedIndex].value;
+      }
+      else {
+        valType = document.querySelector('#dessert_type').options[document.querySelector('#dessert_type').selectedIndex].value;
+      }
+
+      const items = [
+        document.querySelector('#name').value,
+        valCategory,
+        valType,
+        document.querySelector('#year').value,
+        document.querySelector('#winery').value,
+        document.querySelector('#purch').value,
+        document.querySelector('#rating').value
+      ];
+
+      ipcRenderer.send('item:add', items);//send to main.js
+    }
+
+    //category selected
+    selCategory.addEventListener('change', selectedCategory);
+
+    function selectedCategory(e) {
+      const selCat = document.getElementById('category');
+      const selType1 = document.getElementById('red_type');
+      const selType2 = document.getElementById('white_type');
+      const selType3 = document.getElementById('dessert_type');
+      const selValue = selCat.options[selCat.selectedIndex].value;
+
+      if (selValue.valueOf() == 'Red') {
+        selType1.style.display = 'block';
+        selType2.style.display = 'none';
+        selType3.style.display = 'none';
+      }
+      else if (selValue.valueOf() == 'White') {
+        selType1.style.display = 'none';
+        selType2.style.display = 'block';
+        selType3.style.display = 'none';
+      }
+      else {
+        selType1.style.display = 'none';
+        selType2.style.display = 'none';
+        selType3.style.display = 'block';
+      }
+    }
+  </script>
+
+</body>
+
+</html>
