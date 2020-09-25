@@ -48,6 +48,7 @@
       let newTd;
       let newItem;
 
+      //make columns using wine data from the input window
       for (i = 0; i < items.length; i++) {
         newTd = document.createElement('td');
         if (i == 3 || i == 5 || i == 6) {
@@ -57,6 +58,22 @@
         newTd.appendChild(newItem);
         newTr.appendChild(newTd);
       }
+
+      //change tr's background depends on a category
+      switch (items[1]) {
+        case 'Red':
+          newTr.style.backgroundColor = '#ff0066';
+          break;
+        case 'Dessert':
+          newTr.style.backgroundColor = '#ffcc00';
+          break;
+        case 'White':
+          newTr.style.backgroundColor = 'White';
+          break;
+        default:
+          break;
+      }
+      newTr.style.opacity = 0.8;
 
       tblList.appendChild(newTr);
     });

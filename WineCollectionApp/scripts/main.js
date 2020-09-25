@@ -70,6 +70,7 @@ function createAddWindow() {
     {
       width: 420,
       height: 300,
+      icon: './icons/favicon.ico',
       title: 'Add Item',
       webPreferences: {
         nodeIntegration: true
