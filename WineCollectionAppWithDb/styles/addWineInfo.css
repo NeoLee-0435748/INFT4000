@@ -1,0 +1,35 @@
+/* Layout */
+#div_button {
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.td_title {
+  width: 30%;
+  text-align: right;
+}
+
+.td_content {
+  width: 70%;
+}
+
+/* others */
+#btn_submit {
+  width: 90%;
+}
+
+#nameError, #yearError, #wineryError, #purchError, #ratingError {
+  color: red;
+}

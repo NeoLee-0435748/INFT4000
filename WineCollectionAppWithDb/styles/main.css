@@ -1,0 +1,93 @@
+/*
+  Ref: https://stackoverflow.com/questions/29147806/how-can-i-set-the-image-opacity-for-body-background/29147887
+*/
+
+/* Layout */
+body::after {
+  content: "";
+  background: url(../images/background.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.3;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;   
+}
+
+#buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#wine_list {
+  display: flex;
+  justify-content: center;
+}
+
+#space {
+  display: fixed;
+  margin-top: 3px;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table, th, tr, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: center;
+  background-color: lightgray;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+tr {
+  vertical-align: middle;
+}
+
+td {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wine_name {
+  width: 100px;
+}
+#wine_category {
+  width: 60px;
+}
+#wine_type {
+  width: 200px;
+}
+#wine_year {
+  width: 40px;
+}
+#wine_winery {
+  width: 120px;
+}
+#wine_year_pur {
+  width: 70px;
+}
+#wine_rating {
+  width: 50px;
+}
+#wine_update {
+  width: 30px;
+}
+#wine_delete {
+  width: 30px;
+}
+
+/* others */
+#notice {
+  color: blue;
+}

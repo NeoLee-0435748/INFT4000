@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <title>Update Wine</title>
+  <link rel='stylesheet' href='../styles/addWineInfo.css'>
+</head>
+<!--
+  Ref: http://jsfiddle.net/lemonkazi/ucfxywh6/
+-->
+
+<body>
+  <input type='text' id='id' hidden />
+  <form>
+    <div>
+      <table>
+        <tr>
+          <td class='td_title'>
+            Name:
+          </td>
+          <td class='td_content'>
+            <input type='text' id='name' autofocus>
+            <p id='nameError' hidden></p>
+          </td>
+        </tr>
+        <tr>
+          <td class='td_title'>
+            Category:
+          </td>
+          <td class='td_content'>
+            <select id='category' name='category'>
+              <option value='Red'>Red</option>
+              <option value='White'>White</option>
+              <option value='Dessert'>Dessert</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class='td_title'>
+            Type:
+          </td>
+          <td class='td_content'>
+            <select id='red_type' name='category'>
+              <option value='Cabernet'>Cabernet</option>
+              <option value='Cabernet Sauvignon'>Cabernet Sauvignon</option>
+              <option value='Chardonnay'>Chardonnay</option>
+              <option value='Malbec'>Malbec</option>
+              <option value='Merlot'>Merlot</option>
+              <option value='Sirah / Shiraz'>Sirah / Shiraz</option>
+              <option value='Pinot Noir'>Pinot Noir</option>
+              <option value='Port'>Port</option>
+              <option value='Other Red Varieties'>Other Red Varieties</option>
+              <option value='Red Blends'>Red Blends</option>
+            </select>
+            <select id='white_type' name='category' hidden>
+              <option value='Riesling'>Riesling</option>
+              <option value='Sauvignon Blanc'>Sauvignon Blanc</option>
+              <option value='Verdelho'>Verdelho</option>
+              <option value='Semillon'>Semillon</option>
+              <option value='Chardonnay'>Chardonnay</option>
+              <option value='Pinot Gris / Pinot Grigio'>Pinot Gris / Pinot Grigio</option>
+              <option value='Other White Varieties'>Other White Varieties</option>
+              <option value='White Blends'>White Blends</option>
+            </select>
+            <select id='dessert_type' name='category' hidden>
+              <option value='Eiswein (Ice Wine)'>Eiswein (Ice Wine)</option>
+              <option value='Sauternes'>Sauternes</option>
+              <option value='Other Dessert Varieties'>Other Dessert Varieties</option>
+              <option value='Dessert Blends'>Dessert Blends</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class='td_title'>
+            Year:
+          </td>
+          <td class='td_content'>
+            <input type='number' id='year' min='0001' max='2999' step='1' value='1901' />
+            <p id='yearError' hidden></p>
+          </td>
+        </tr>
+        <tr>
+          <td class='td_title'>
+            Winery:
+          </td>
+          <td class='td_content'>
+            <input type='text' id='winery'>
+            <p id='wineryError' hidden></p>
+          </td>
+        </tr>
+        <tr>
+          <td class='td_title'>
+            Year Purchased:
+          </td>
+          <td class='td_content'>
+            <input type='number' id='purch' min='0001' max='2999' step='1' value='2020' />
+            <p id='purchError' hidden></p>
+          </td>
+        </tr>
+        <tr>
+          <td class='td_title'>
+            Rating:
+          </td>
+          <td class='td_content'>
+            <input type='number' id='rating' min='1' max='10' step='1' value='1' />
+            <p id='ratingError' hidden></p>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div id='div_button'>
+      <button type='submit' id='btn_submit'>Update</button>
+    </div>
+  </form>
+
+  <script src="../scripts/updateWineinfo.js"></script>
+</body>
+
+</html>
