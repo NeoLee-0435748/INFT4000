@@ -1,20 +1,21 @@
 /*
-  Ref: https://stackoverflow.com/questions/29147806/how-can-i-set-the-image-opacity-for-body-background/29147887
+fonts
 */
+@import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap'); /* for spring */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative&display=swap'); /* for summer */
+@import url('https://fonts.googleapis.com/css2?family=Allan&display=swap'); /* for fall */
+@import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap'); /* for winter */
 
 /* Layout */
-body::after {
-  content: "";
-  background: url(../images/background.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-  opacity: 0.3;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+footer {
   position: absolute;
-  z-index: -1;   
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0.2rem;
+  background-color: #1f6fbe;
+  color:#fff;
+  text-align: center;
 }
 
 #buttons {
@@ -90,4 +91,8 @@ td {
 /* others */
 #notice {
   color: blue;
+}
+
+#username {
+  color: yellow;
 }

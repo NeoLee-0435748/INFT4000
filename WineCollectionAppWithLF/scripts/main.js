@@ -43,6 +43,12 @@ ipcRenderer.on('item:clear', () => {
   tableInit();
 });
 
+//username update (caller: index.js)
+ipcRenderer.on('username:update', (e, username) => {
+  const eleUsername = document.getElementById('username');
+  eleUsername.innerText = username;
+});
+
 //process functions
 //display all data to the table
 function displayAllData() {

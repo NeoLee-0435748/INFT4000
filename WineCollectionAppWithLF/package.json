@@ -4,9 +4,9 @@
     "https://github.com/ElectronNET/Electron.NET/issues/190",
     "https://stackoverflow.com/questions/59194384/build-is-not-recognized-as-an-internal-or-external-command-using-electronjs"
   ],
-  "name": "winecollectionappwithdb",
+  "name": "winecollectionappwithlf",
   "version": "1.0.0",
-  "description": "Electron Lab #2",
+  "description": "Electron Lab #3",
   "main": "./scripts/index.js",
   "scripts": {
     "start": "electron .",
