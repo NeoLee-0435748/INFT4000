@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Report</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
+    <link rel="stylesheet" href="../node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" />
+
+    <!-- Bootstrap Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>
+      let $ = require("jquery");
+      require("popper.js");
+      require("bootstrap");
+      require("bootstrap-datepicker");
+      $(function () {
+        $("#includedFooter").load("footer.html");
+      });
+    </script>
+    <!-- Customizer styles -->
+    <link rel="stylesheet" href="../styles/report.css" />
+  </head>
+  <body>
+    <div class="container-fluid report">
+      <div class="row mt-2 vh-10">
+        <div class="col">
+          <!-- Date input -->
+          <div class="input-group date">
+            <span class="input-group-text" id="select-report-date">Report: </span>
+            <input
+              type="text"
+              class="form-control"
+              id="report-date"
+              name="report-date"
+              placeholder="YYYY-MM"
+              aria-describedby="select-report-date"
+            />
+            <!-- <span class="fas fa-calendar-day" style="font-size: 2.5em"></span> -->
+          </div>
+        </div>
+        <div class="col text-right">
+          <button class="btn btn-warning float-right" id="btn-close">Close</button>
+        </div>
+      </div>
+      <div class="row vh-80">
+        <table class="table" id="report-table">
+          <thead>
+            <tr class="d-flex">
+              <th class="col-1">No</th>
+              <th class="col-3">Store</th>
+              <th class="col-3">Purpose</th>
+              <th class="col-2">Amount</th>
+              <th class="col-1">Receipt</th>
+              <th class="col-1">Edit</th>
+              <th class="col-1">Delete</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+          <tfoot></tfoot>
+        </table>
+      </div>
+      <div class="row vh-10">
+        <div class="col text-right">
+          <button class="btn btn-info float-left" id="btn-print">Print</button>
+          <label for="total-amount"
+            >Total: $
+            <input type="number" class="float-right" id="total-amount" value="0.00" disabled />
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div id="includedFooter"></div>
+    <script src="../scripts/report.js"></script>
+  </body>
+</html>

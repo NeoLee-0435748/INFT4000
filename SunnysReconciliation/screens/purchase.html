@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Purchase</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Bootstrap Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>
+      let $ = require("jquery");
+      require("popper.js");
+      require("bootstrap");
+    </script>
+    <!-- Customizer styles -->
+    <link rel="stylesheet" href="../styles/purchase.css" />
+  </head>
+  <body>
+    <div class="container">
+      <form>
+        <div class="form-group">
+          <label for="purchaseDate">Date</label>
+          <input type="date" class="form-control" id="purchaseDate" placeholder="2021-01-01" />
+        </div>
+        <div class="form-group">
+          <label for="purchaseStore">Store</label>
+          <select class="form-control" id="purchaseStore">
+            <option>11</option>
+            <option>12</option>
+            <option>13</option>
+            <option>14</option>
+            <option>15</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="purchasePurpose">Purpose</label>
+          <select class="form-control" id="purchasePurpose">
+            <option>21</option>
+            <option>22</option>
+            <option>23</option>
+            <option>24</option>
+            <option>25</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="purchaseAmount">Amount</label>
+          <input type="number" class="form-control" id="purchaseAmount" placeholder="11.30" min="0" step=".01" />
+        </div>
+        <div class="form-group">
+          <label class="form-check-inline form-check-label">Receipt</label>
+          <div class="row">
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  id="purchaseReceiptYes"
+                  name="purchaseReceipt"
+                  value="Y"
+                  checked
+                />Yes
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  id="purchaseReceiptNo"
+                  name="purchaseReceipt"
+                  value="N"
+                />No
+              </label>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="buttons">
+        <button class="btn btn-info" id="btn-add">Add/Edit</button>
+        <button class="btn btn-warning" id="btn-close">Close</button>
+      </div>
+    </div>
+
+    <script src="../scripts/purchase.js"></script>
+  </body>
+</html>

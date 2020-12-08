@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sunny's Reconciiation</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Bootstrap Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>
+      let $ = require("jquery");
+      require("popper.js");
+      require("bootstrap");
+      $(function () {
+        $("#includedFooter").load("footer.html");
+      });
+    </script>
+    <!-- Customizer styles -->
+    <link rel="stylesheet" href="../styles/main.css" />
+  </head>
+  <body>
+    <div class="container-fluid main">
+      <div class="row h-50">
+        <div class="col mt-2 mb-2">
+          <button id="report" type="button" class="btn btn-primary btn-block h-100"><h1>REPORT</h1></button>
+        </div>
+        <div class="col mt-2 mb-2">
+          <button id="purchase" type="button" class="btn btn-primary btn-block h-100"><h1>PURCHASE</h1></button>
+        </div>
+      </div>
+      <div class="row h-50">
+        <div class="col mt-2 mb-2">
+          <button id="settings" type="button" class="btn btn-primary btn-block h-100"><h1>SETTINGS</h1></button>
+        </div>
+        <div class="col mt-2 mb-2">
+          <button id="quit" type="button" class="btn btn-primary btn-block h-100"><h1>QUIT</h1></button>
+        </div>
+      </div>
+    </div>
+
+    <div id="includedFooter"></div>
+    <script src="../scripts/main.js"></script>
+  </body>
+</html>
