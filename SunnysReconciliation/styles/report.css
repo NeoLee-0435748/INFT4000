@@ -16,14 +16,6 @@ footer {
   height: 5%;
 }
 
-.vh-10 {
-  height: 10vh;
-}
-
 .vh-80 {
   height: 80vh;
-}
-
-#report-date {
-  width: 70px;
 }

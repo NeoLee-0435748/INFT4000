@@ -24,7 +24,7 @@ function createWindow() {
     },
     show: false,
   });
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   mainWindow.loadURL(
     url.format({
@@ -46,7 +46,7 @@ function createWindow() {
     },
     show: false,
   });
-  reportWindow.webContents.openDevTools();
+  // reportWindow.webContents.openDevTools();
 
   reportWindow.loadURL(
     url.format({
@@ -86,13 +86,21 @@ function createWindow() {
   });
 
   //from Report window
+  ipcMain.on("search:report", function (e, searchYM) {
+    mainWindow.webContents.send("search:report", searchYM);
+  });
 
   //from Purchase window
   ipcMain.on("close:thePurchaseWindow", function (e) {
+    purchaseWindow.close();
     purchaseWindow = null;
   });
 
   //from Settings window
+  ipcMain.on("close:theSettingsWindow", function (e) {
+    settingsWindow.close();
+    settingsWindow = null;
+  });
 }
 
 //function to create window for Purchasing
@@ -101,14 +109,14 @@ function createPurchaseWindow() {
     parent: mainWindow,
     modal: true,
     width: 820,
-    height: 600,
+    height: 550,
     icon: "./icons/favicon.ico",
     title: "Purchase Add/Edit",
     webPreferences: {
       nodeIntegration: true,
     },
   });
-  // purchaseWindow.webContents.openDevTools()
+  // purchaseWindow.webContents.openDevTools();
 
   purchaseWindow.loadURL(
     url.format({
@@ -128,15 +136,15 @@ function createSettingsWindow() {
   settingsWindow = new BrowserWindow({
     parent: mainWindow,
     modal: true,
-    width: 820,
-    height: 600,
+    width: 600,
+    height: 350,
     icon: "./icons/favicon.ico",
     title: "Settings",
     webPreferences: {
       nodeIntegration: true,
     },
   });
-  // settingsWindow.webContents.openDevTools()
+  // settingsWindow.webContents.openDevTools();
 
   settingsWindow.loadURL(
     url.format({

@@ -1,3 +1,6 @@
+//imports & variables ---------------------------------------------------------
+const { ipcRenderer } = require("electron"); //deconstruct imports
+
 //declaration -----------------------------------------------------------------
 const btnAdd = document.getElementById("btn-add");
 const btnClose = document.getElementById("btn-close");
@@ -10,9 +13,7 @@ ipcRenderer.on("item:add", (e, items) => {});
 btnAdd.addEventListener("click", addPurchase);
 btnClose.addEventListener("click", closeWindow);
 
-function addPurchase(e) {
-
-}
+function addPurchase(e) {}
 
 function closeWindow(e) {
   ipcRenderer.send("close:thePurchaseWindow"); //send to index.js

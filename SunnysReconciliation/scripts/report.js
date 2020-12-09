@@ -1,4 +1,4 @@
-//imports ---------------------------------------------------------------------
+//imports & variables ---------------------------------------------------------
 const { ipcRenderer } = require("electron"); //deconstruct imports
 
 //declaration -----------------------------------------------------------------
@@ -13,8 +13,10 @@ const btnClose = document.getElementById("btn-close");
 // ipcRenderer.on("item:", edit(e, items) => {});
 
 //local event functions (call index.js) ---------------------------------------
-// btnPrint.addEventListener("click", openPrintWindow);
+btnPrint.addEventListener("click", printReport);
 btnClose.addEventListener("click", closeWindow);
+
+function printReport() {}
 
 function closeWindow(e) {
   window.switchPage("main");
@@ -22,15 +24,15 @@ function closeWindow(e) {
 
 //Etc -------------------------------------------------------------------------
 $(document).ready(function () {
-  var date_input = $('input[name="report-date"]'); //our date input has the name "date"
-  var container = $(".input-group.date").length > 0 ? $(".input-group.date").parent() : "body";
-  var options = {
+  let date_input = $('input[name="report-date"]'); //our date input has the name "report-date"
+  let container = $(".input-group.date").length > 0 ? $(".input-group.date").parent() : "body";
+  let options = {
     format: "yyyy-mm",
     container: container,
     startView: 1,
     minViewMode: 1,
     maxViewMode: 2,
-    todayBtn: true,
+    // todayBtn: true,
     autoclose: true,
     // icons: {
     //   time: "fa fa-clock-o",
@@ -45,4 +47,12 @@ $(document).ready(function () {
   };
 
   date_input.datepicker(options);
+
+  date_input.datepicker().on("changeMonth", function (e) {
+    console.log(e);
+    console.log(e.date.getFullYear() + "-" + (e.date.getMonth() + 1));
+
+    let searchYM = `${e.date.getFullYear()}-${e.date.getMonth() + 1}`;
+    ipcRenderer.send("search:report", searchYM); //send to index.js
+  });
 });

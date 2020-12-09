@@ -1,5 +1,15 @@
 //imports ---------------------------------------------------------------------
 const { ipcRenderer } = require("electron"); //deconstruct imports
+const dbInterface = require("../scripts/dbInterface");
+const path = require("path");
+let sqlite3 = require("sqlite3");
+const knexOptions = {
+  client: "sqlite3",
+  connection: { filename: path.resolve(__dirname, "../database/SunnyRecon.db") },
+  useNullAsDefault: true,
+  debug: true,
+};
+let knex = require("knex")(knexOptions);
 
 //declaration -----------------------------------------------------------------
 const btnReport = document.getElementById("report");
@@ -8,11 +18,16 @@ const btnSettings = document.getElementById("settings");
 const btnQuit = document.getElementById("quit");
 
 //IPC event functions ---------------------------------------------------------
-//catch add item (caller: index.js)
-// ipcRenderer.on("item:", add(e, items) => {});
+//catch search report (caller: index.js)
+ipcRenderer.on("search:report", (e, searchYM) => {
+  console.log("search:report => " + searchYM);
+  dbInterface.selectAllPurchases(knex, (data, err) => {
+    console.log(data);
+  });
+});
 
 //catch add item (caller: index.js)
-// ipcRenderer.on("item:", edit(e, items) => {});
+// ipcRenderer.on("item:", (e, items) => {});
 
 //local event functions (call index.js) ---------------------------------------
 btnReport.addEventListener("click", openReportWindow);
