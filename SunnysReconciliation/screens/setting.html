@@ -7,11 +7,13 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../node_modules/jquery-ui-dist/jquery-ui.min.css" />
 
     <!-- Bootstrap Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script>
-      let $ = require("jquery");
+      let $ = (jQuery = require("jquery"));
+      require("jquery-ui-dist/jquery-ui");
       require("popper.js");
       require("bootstrap");
     </script>
@@ -40,46 +42,36 @@
         </div>
         <div class="form-group mx-sm-3 col-5 mb-2">
           <label for="deleteStore" class="sr-only">Store</label>
-          <select class="form-control" id="deleteStore">
-            <option>11</option>
-            <option>12</option>
-            <option>13</option>
-            <option>14</option>
-            <option>15</option>
-          </select>
+          <select class="form-control" id="deleteStore"></select>
         </div>
         <button class="btn btn-warning col-2 mb-2" id="btn-delete-store">Delete</button>
       </div>
-      <!-- add purchase -->
+      <div id="dialog-store" title="Delete Confirm">Do you really want to delete it?</div>
+      <!-- add purpose -->
       <div class="row pt-3">
         <div class="form-group col-3 mb-2">
-          <label for="staticPurchase" class="sr-only">Purchase</label>
-          <input type="text" readonly class="form-control-plaintext text-right" id="staticPurchase" value="Purchase" />
+          <label for="staticPurpose" class="sr-only">Purpose</label>
+          <input type="text" readonly class="form-control-plaintext text-right" id="staticPurpose" value="Purpose" />
         </div>
         <div class="form-group mx-sm-3 col-5 mb-2">
-          <label for="inputPurchase" class="sr-only">Purchase</label>
-          <input type="text" class="form-control" id="inputPurchase" placeholder="Input purchase name" />
+          <label for="inputPurpose" class="sr-only">Purpose</label>
+          <input type="text" class="form-control" id="inputPurpose" placeholder="Input purpose name" />
         </div>
         <button class="btn btn-primary col-2 mb-2" id="btn-add-purpose">Add</button>
       </div>
-      <!-- delete purchase -->
+      <!-- delete purpose -->
       <div class="row">
         <div class="form-group col-3 mb-2">
-          <label for="staticEmpty" class="sr-only">Purchase</label>
+          <label for="staticEmpty" class="sr-only">Purpose</label>
           <input type="text" readonly class="form-control-plaintext text-right" id="staticEmpty" value="" />
         </div>
         <div class="form-group mx-sm-3 col-5 mb-2">
-          <label for="deletePurchase" class="sr-only">Purchase</label>
-          <select class="form-control" id="deletePurchase">
-            <option>11</option>
-            <option>12</option>
-            <option>13</option>
-            <option>14</option>
-            <option>15</option>
-          </select>
+          <label for="deletePurpose" class="sr-only">Purpose</label>
+          <select class="form-control" id="deletePurpose"></select>
         </div>
         <button class="btn btn-warning col-2 mb-2" id="btn-delete-purpose">Delete</button>
       </div>
+      <div id="dialog-purpose" title="Delete Confirm">Do you really want to delete it?</div>
       <!-- close button -->
       <div class="row pt-3">
         <div class="col text-right">
