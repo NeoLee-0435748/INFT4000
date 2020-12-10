@@ -2,6 +2,7 @@
   //imports ---------------------------------------------------------------------
   const { ipcRenderer } = require("electron"); //deconstruct imports
   const modelPurchases = require("../scripts/models/purchases");
+  const modelReports = require("../scripts/models/reports");
   const modelStores = require("../scripts/models/stores");
   const modelPurposes = require("../scripts/models/purposes");
   const path = require("path");
@@ -15,25 +16,50 @@
   let knex = require("knex")(knexOptions);
 
   //declaration -----------------------------------------------------------------
-  const btnReport = document.getElementById("report");
-  const btnPurchase = document.getElementById("purchase");
-  const btnSettings = document.getElementById("settings");
-  const btnQuit = document.getElementById("quit");
+  const btnReport = $("#report");
+  const btnPurchase = $("#purchase");
+  const btnSettings = $("#settings");
+  const btnQuit = $("#quit");
 
   //IPC event functions ---------------------------------------------------------
   //<<< Report window >>>
   //catch search report (caller: index.js)
-  ipcRenderer.on("search:report", (e, searchYM) => {
-    console.log("search:report => " + searchYM);
-    modelPurchases.selectAll(knex, (data, err) => {
-      // console.log(data);
-      ipcRenderer.send("search:report:result", data, err);
+  ipcRenderer.on("get:report", (e, searchYM) => {
+    console.log("get:report => " + searchYM);
+    modelReports.selectReport(knex, searchYM, (data, err) => {
+      console.log(err);
+      ipcRenderer.send("get:report:result", data, err);
+    });
+  });
+
+  //catch make report for printing (caller: index.js)
+  ipcRenderer.on("create:report", (e, searchYM) => {
+    console.log("create:report => " + searchYM);
+    modelReports.selectNewMaster(knex, searchYM, (data, err) => {
+      console.log(err);
+      if (data) {
+        modelReports.createMaster(knex, data, (err) => {
+          if (!err) {
+            modelReports.createDetail();
+          }
+        });
+      }
+    });
+
+    // ipcRenderer.send("create:report:result", data, err);
+  });
+
+  //<<< Purchase window >>>
+  //catch add purchase (caller: index.js)
+  ipcRenderer.on("add:purchase", (e, purchaseData) => {
+    modelPurchases.create(knex, purchaseData, (error) => {
+      ipcRenderer.send("add:purchase:result", error);
     });
   });
 
   //<<< Settings window >>>
   //catch get all settings (caller: index.js)
-  ipcRenderer.on("get:all:settings", (e) => {
+  ipcRenderer.on("get:all:settings", (e, sender) => {
     let allSettings = [];
 
     modelStores.selectAll(knex, (data, err) => {
@@ -45,7 +71,7 @@
         allSettings.push(data);
 
         // console.log(allSettings);
-        ipcRenderer.send("get:all:settings:result", allSettings, err);
+        ipcRenderer.send("get:all:settings:result", allSettings, sender, err);
       });
     });
   });
@@ -79,26 +105,21 @@
   });
 
   //local event functions (call index.js) ---------------------------------------
-  btnReport.addEventListener("click", openReportWindow);
-  btnPurchase.addEventListener("click", openPurchaseWindow);
-  btnSettings.addEventListener("click", openSettingsWindow);
-  btnQuit.addEventListener("click", quitTheApp);
-
-  function openReportWindow(e) {
+  btnReport.click(() => {
     window.switchPage("report");
-  }
+  });
 
-  function openPurchaseWindow(e) {
+  btnPurchase.click(() => {
     ipcRenderer.send("open:purchaseWindow"); //send to index.js
-  }
+  });
 
-  function openSettingsWindow(e) {
+  btnSettings.click(() => {
     ipcRenderer.send("open:settingsWindow"); //send to index.js
-  }
+  });
 
-  function quitTheApp(e) {
+  btnQuit.click(() => {
     ipcRenderer.send("quit:theApp"); //send to index.js
-  }
+  });
 
   //Etc -------------------------------------------------------------------------
 })();

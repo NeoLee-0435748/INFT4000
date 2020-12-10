@@ -47,7 +47,7 @@
       },
       show: false,
     });
-    reportWindow.webContents.openDevTools();
+    // reportWindow.webContents.openDevTools();
 
     reportWindow.loadURL(
       url.format({
@@ -87,15 +87,15 @@
     });
 
     // to Report Window
-    ipcMain.on("search:report:result", function (e, data, error) {
-      reportWindow.webContents.send("search:report:result", data, error);
+    ipcMain.on("get:report:result", function (e, data, error) {
+      reportWindow.webContents.send("get:report:result", data, error);
+    });
+
+    ipcMain.on("create:report:result", function (e, data, error) {
+      reportWindow.webContents.send("create:report:result", data, error);
     });
 
     // to Settings Window
-    ipcMain.on("get:all:settings:result", function (e, data, error) {
-      settingsWindow.webContents.send("get:all:settings:result", data, error);
-    });
-
     ipcMain.on("add:store:result", function (e, error) {
       settingsWindow.webContents.send("add:store:result", error);
     });
@@ -112,9 +112,22 @@
       settingsWindow.webContents.send("delete:purpose:result", error);
     });
 
+    // shared
+    ipcMain.on("get:all:settings:result", function (e, data, sender, error) {
+      if (sender === "purchase") {
+        purchaseWindow.webContents.send("get:all:settings:result", data, error);
+      } else {
+        settingsWindow.webContents.send("get:all:settings:result", data, error);
+      }
+    });
+
     //<<< Report window >>>
-    ipcMain.on("search:report", function (e, searchYM) {
-      mainWindow.webContents.send("search:report", searchYM);
+    ipcMain.on("get:report", function (e, searchYM) {
+      mainWindow.webContents.send("get:report", searchYM);
+    });
+
+    ipcMain.on("create:report", function (e, searchYM) {
+      mainWindow.webContents.send("create:report", searchYM);
     });
 
     //<<< Purchase window >>>
@@ -123,14 +136,14 @@
       purchaseWindow = null;
     });
 
+    ipcMain.on("add:purchase", function (e, purchaseData) {
+      mainWindow.webContents.send("add:purchase", purchaseData);
+    });
+
     //<<< Settings window >>>
     ipcMain.on("close:theSettingsWindow", function (e) {
       settingsWindow.close();
       settingsWindow = null;
-    });
-
-    ipcMain.on("get:all:settings", function (e) {
-      mainWindow.webContents.send("get:all:settings");
     });
 
     ipcMain.on("add:store", function (e, storeName) {
@@ -148,6 +161,11 @@
     ipcMain.on("delete:purpose", function (e, purposeId) {
       mainWindow.webContents.send("delete:purpose", purposeId);
     });
+
+    //<<< Shared >>>
+    ipcMain.on("get:all:settings", function (e, sender) {
+      mainWindow.webContents.send("get:all:settings", sender);
+    });
   }
 
   //function to create window for Purchasing
@@ -163,7 +181,7 @@
         nodeIntegration: true,
       },
     });
-    // purchaseWindow.webContents.openDevTools();
+    //purchaseWindow.webContents.openDevTools();
 
     purchaseWindow.loadURL(
       url.format({

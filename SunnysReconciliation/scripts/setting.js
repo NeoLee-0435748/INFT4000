@@ -75,14 +75,14 @@
     ipcRenderer.send("close:theSettingsWindow"); //send to index.js
   });
 
-  function getAllSettings() {
-    ipcRenderer.send("get:all:settings");
-  }
-
   //Etc -------------------------------------------------------------------------
   $(document).ready(function () {
     getAllSettings();
   });
+
+  function getAllSettings() {
+    ipcRenderer.send("get:all:settings", "settings");
+  }
 
   dialogStore.dialog({
     autoOpen: false,

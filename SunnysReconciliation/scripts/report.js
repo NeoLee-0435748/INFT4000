@@ -3,13 +3,13 @@
   const { ipcRenderer } = require("electron"); //deconstruct imports
 
   //declaration -----------------------------------------------------------------
-  const btnPrint = document.getElementById("btn-print");
-  const btnClose = document.getElementById("btn-close");
+  const btnPrint = $("#btn-print");
+  const btnClose = $("#btn-close");
 
   //IPC event functions ---------------------------------------------------------
-  //catch add item (caller: index.js)
-  ipcRenderer.on("search:report:result", (e, data, err) => {
-    console.log("search:report:result");
+  //catch get report (caller: index.js)
+  ipcRenderer.on("get:report:result", (e, data, err) => {
+    console.log("get:report:result");
     console.log(data);
   });
 
@@ -17,14 +17,13 @@
   // ipcRenderer.on("item:", (e, items) => {});
 
   //local event functions (call index.js) ---------------------------------------
-  btnPrint.addEventListener("click", printReport);
-  btnClose.addEventListener("click", closeWindow);
+  btnPrint.click((e) => {
+    ipcRenderer.send("create:report", searchYM); //send to index.js
+  });
 
-  function printReport() {}
-
-  function closeWindow(e) {
+  btnClose.click((e) => {
     window.switchPage("main");
-  }
+  });
 
   //Etc -------------------------------------------------------------------------
   $(document).ready(function () {
@@ -57,7 +56,7 @@
       console.log(e.date.getFullYear() + "-" + (e.date.getMonth() + 1));
 
       let searchYM = `${e.date.getFullYear()}-${e.date.getMonth() + 1}`;
-      ipcRenderer.send("search:report", searchYM); //send to index.js
+      ipcRenderer.send("get:report", searchYM); //send to index.js
     });
   });
 })();

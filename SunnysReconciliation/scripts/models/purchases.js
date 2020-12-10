@@ -5,6 +5,9 @@
   //select all data
   function selectAll(knex, cb) {
     let query = knex(tblName)
+      .where({
+        delete_yn: "N",
+      })
       .join("stores", "purchases.store_id", "=", "stores.store_id")
       .join("purposes", "purchases.purpose_id", "=", "purposes.purpose_id")
       .select(
@@ -25,88 +28,89 @@
   }
 
   //select by id
-  function selectWineById(knex, wineId) {
+  function selectById(knex, wineId, cb) {
     let query = knex(tblName).select().where({
-      id: wineId,
+      purchase_id: wineId,
     });
 
-    result = query
+    query
       .then((row) => {
-        console.log(row);
-        return row;
+        // console.log(row);
+        cb(row, null);
       })
-      .catch((err) => {
-        console.log(err);
-      })
-      .then(() => {
-        console.log("select data");
-      });
-
-    return result;
+      .catch((error) => cb(null, error));
   }
 
   //insert
-  function insertWine(knex, wineData) {
+  function create(knex, purchaseData, cb) {
     let query = knex(tblName).insert({
-      name: wineData[0],
-      category: wineData[1],
-      type: wineData[2],
-      year: wineData[3],
-      winery: wineData[4],
-      purchased_year: wineData[5],
-      rating: wineData[6],
+      purchase_date: purchaseData[0],
+      store_id: purchaseData[1],
+      purpose_id: purchaseData[2],
+      amount: purchaseData[3],
+      receipt_yn: purchaseData[4],
     });
 
     query
-      .then(() => console.log("wine item inserted"))
-      .catch((err) => console.log(err))
-      .then(() => console.log("insert finished!!!"));
+      .then(() => {
+        console.log("new purchase inserted");
+        cb(null);
+      })
+      .catch((error) => cb(error));
   }
 
   //update
-  function updateWine(knex, wineData) {
-    let query = knex(tblName).where("id", wineData[7]).update({
-      name: wineData[0],
-      category: wineData[1],
-      type: wineData[2],
-      year: wineData[3],
-      winery: wineData[4],
-      purchased_year: wineData[5],
-      rating: wineData[6],
+  function modify(knex, purchaseId, purchaseData, cb) {
+    let query = knex(tblName).where("id", purchaseId).update({
+      purchase_date: purchaseData[0],
+      store_id: purchaseData[1],
+      purpose_id: purchaseData[2],
+      amount: purchaseData[3],
+      receipt_yn: purchaseData[4],
     });
 
     query
-      .then(() => console.log("wine item updated"))
-      .catch((err) => console.log(err))
-      .then(() => console.log("update finished!!!"));
+      .then(() => {
+        console.log("purchase updated");
+        cb(null);
+      })
+      .catch((error) => cb(error));
   }
 
   //delete
-  function deleteWine(knex, wineId) {
-    let query = knex(tblName).where("id", wineId).del();
+  function remove(knex, purchaseId) {
+    let query = knex(tblName).where("id", purchaseId).update({
+      delete_yn: "Y",
+    });
 
     query
-      .then(() => console.log("wine item deleted"))
-      .catch((err) => console.log(err))
-      .then(() => console.log("delete finished!!!"));
+      .then(() => {
+        console.log("purchase deleted");
+        cb(null);
+      })
+      .catch((error) => cb(error));
   }
 
-  //delete
-  function deleteAllWines(knex) {
-    let query = knex(tblName).del();
+  //delete all
+  function removeAll(knex, cb) {
+    let query = knex(tblName).update({
+      delete_yn: "Y",
+    });
 
     query
-      .then(() => console.log("all wine item deleted"))
-      .catch((err) => console.log(err))
-      .then(() => console.log("delete finished!!!"));
+      .then(() => {
+        console.log("all purchase deleted");
+        cb(null);
+      })
+      .catch((error) => cb(error));
   }
 
   module.exports = {
     selectAll: selectAll,
-    selectWineById: selectWineById,
-    insertWine: insertWine,
-    updateWine: updateWine,
-    deleteAllWines: deleteAllWines,
-    deleteWine: deleteWine,
+    selectById: selectById,
+    create: create,
+    modify: modify,
+    remove: remove,
+    removeAll: removeAll,
   };
 })();
