@@ -23,12 +23,34 @@
 
   //IPC event functions ---------------------------------------------------------
   //<<< Report window >>>
+  //catch delete purchase (caller: index.js)
+  ipcRenderer.on("delete:purchase", (e, purchaseId, searchYM) => {
+    console.log("delete:purchase => " + purchaseId + ", " + searchYM);
+    modelPurchases.remove(knex, purchaseId, (err) => {
+      console.log(err);
+      if (!err) {
+        modelReports.selectReport(knex, searchYM, (data, err) => {
+          console.log(err);
+          let reportData = data;
+          modelReports.selectNewMaster(knex, searchYM, (data, err) => {
+            console.log(err);
+            ipcRenderer.send("delete:purchase:result", reportData, data, err);
+          });
+        });
+      }
+    });
+  });
+
   //catch search report (caller: index.js)
   ipcRenderer.on("get:report", (e, searchYM) => {
     console.log("get:report => " + searchYM);
     modelReports.selectReport(knex, searchYM, (data, err) => {
       console.log(err);
-      ipcRenderer.send("get:report:result", data, err);
+      let reportData = data;
+      modelReports.selectNewMaster(knex, searchYM, (data, err) => {
+        console.log(err);
+        ipcRenderer.send("get:report:result", reportData, data, err);
+      });
     });
   });
 
@@ -54,6 +76,21 @@
   ipcRenderer.on("add:purchase", (e, purchaseData) => {
     modelPurchases.create(knex, purchaseData, (error) => {
       ipcRenderer.send("add:purchase:result", error);
+    });
+  });
+
+  //catch edit purchase (caller: index.js)
+  ipcRenderer.on("edit:purchase", (e, purchaseId, purchaseData) => {
+    modelPurchases.modify(knex, purchaseId, purchaseData, (error) => {
+      ipcRenderer.send("edit:purchase:result", error);
+    });
+  });
+
+  //catch get purchase (caller: index.js)
+  ipcRenderer.on("get:purchase", (e, purchaseId) => {
+    modelPurchases.selectById(knex, purchaseId, (data, error) => {
+      console.log("get:purchase");
+      ipcRenderer.send("get:purchase:result", data, error);
     });
   });
 

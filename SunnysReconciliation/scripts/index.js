@@ -2,8 +2,8 @@
   //imports ---------------------------------------------------------------------
   const path = require("path");
   const url = require("url");
-  const { app, BrowserWindow, Menu, ipcMain, remote, globalShortcut } = require("electron"); //deconstruct imports
-  const { windowsStore } = require("process");
+  const { app, BrowserWindow, Menu, ipcMain } = require("electron"); //deconstruct imports
+  // const { windowsStore } = require("process");
 
   //variables for windows
   let mainWindow;
@@ -25,7 +25,7 @@
       },
       show: false,
     });
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
 
     mainWindow.loadURL(
       url.format({
@@ -69,13 +69,14 @@
       app.quit();
     });
 
-    let menu = Menu.buildFromTemplate(mainMenuTemplate);
-    Menu.setApplicationMenu(menu);
+    // let menu = Menu.buildFromTemplate(mainMenuTemplate);
+    // Menu.setApplicationMenu(menu);
+    Menu.setApplicationMenu(null);
 
     //handling IPC events -------------------------------------------------------
-    //<<< Main window >>>
+    //<<< From Main window >>>
     ipcMain.on("open:purchaseWindow", function (e) {
-      createPurchaseWindow();
+      createPurchaseWindow(null);
     });
 
     ipcMain.on("open:settingsWindow", function (e) {
@@ -87,12 +88,30 @@
     });
 
     // to Report Window
-    ipcMain.on("get:report:result", function (e, data, error) {
-      reportWindow.webContents.send("get:report:result", data, error);
+    ipcMain.on("delete:purchase:result", function (e, reportData, totalData, error) {
+      reportWindow.webContents.send("delete:purchase:result", reportData, totalData, error);
+    });
+
+    ipcMain.on("get:report:result", function (e, reportData, totalData, error) {
+      reportWindow.webContents.send("get:report:result", reportData, totalData, error);
     });
 
     ipcMain.on("create:report:result", function (e, data, error) {
       reportWindow.webContents.send("create:report:result", data, error);
+    });
+
+    // to Purchase Window
+    ipcMain.on("get:purchase:result", function (e, data, error) {
+      purchaseWindow.webContents.send("get:purchase:result", data, error);
+    });
+
+    ipcMain.on("add:purchase:result", function (e, error) {
+      purchaseWindow.webContents.send("add:purchase:result", error);
+    });
+
+    ipcMain.on("edit:purchase:result", function (e, error) {
+      reportWindow.webContents.send("edit:purchase:result", error);
+      purchaseWindow.webContents.send("edit:purchase:result", error);
     });
 
     // to Settings Window
@@ -121,7 +140,15 @@
       }
     });
 
-    //<<< Report window >>>
+    //<<< From Report window >>>
+    ipcMain.on("open:edit:purchase", function (e, purchaseId) {
+      createPurchaseWindow(purchaseId);
+    });
+
+    ipcMain.on("delete:purchase", function (e, purchaseId, searchYM) {
+      mainWindow.webContents.send("delete:purchase", purchaseId, searchYM);
+    });
+
     ipcMain.on("get:report", function (e, searchYM) {
       mainWindow.webContents.send("get:report", searchYM);
     });
@@ -130,17 +157,25 @@
       mainWindow.webContents.send("create:report", searchYM);
     });
 
-    //<<< Purchase window >>>
+    //<<< From Purchase window >>>
     ipcMain.on("close:thePurchaseWindow", function (e) {
       purchaseWindow.close();
       purchaseWindow = null;
+    });
+
+    ipcMain.on("get:purchase", function (e, purchaseId) {
+      mainWindow.webContents.send("get:purchase", purchaseId);
     });
 
     ipcMain.on("add:purchase", function (e, purchaseData) {
       mainWindow.webContents.send("add:purchase", purchaseData);
     });
 
-    //<<< Settings window >>>
+    ipcMain.on("edit:purchase", function (e, purchaseId, purchaseData) {
+      mainWindow.webContents.send("edit:purchase", purchaseId, purchaseData);
+    });
+
+    //<<< From Settings window >>>
     ipcMain.on("close:theSettingsWindow", function (e) {
       settingsWindow.close();
       settingsWindow = null;
@@ -169,9 +204,9 @@
   }
 
   //function to create window for Purchasing
-  function createPurchaseWindow() {
+  function createPurchaseWindow(purchaseId) {
     purchaseWindow = new BrowserWindow({
-      parent: mainWindow,
+      parent: purchaseId === null ? mainWindow : reportWindow,
       modal: true,
       width: 820,
       height: 550,
@@ -181,15 +216,11 @@
         nodeIntegration: true,
       },
     });
-    //purchaseWindow.webContents.openDevTools();
+    // purchaseWindow.webContents.openDevTools();
 
-    purchaseWindow.loadURL(
-      url.format({
-        pathname: path.join(__dirname, "../screens/purchase.html"),
-        protocol: "file:",
-        slashes: true,
-      })
-    );
+    purchaseWindow.loadFile(path.join(__dirname, "../screens/purchase.html"), {
+      query: { data: JSON.stringify({ id: purchaseId }) },
+    });
 
     purchaseWindow.on("close", function () {
       purchaseWindow = null;

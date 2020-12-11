@@ -28,10 +28,12 @@
   }
 
   //select by id
-  function selectById(knex, wineId, cb) {
-    let query = knex(tblName).select().where({
-      purchase_id: wineId,
-    });
+  function selectById(knex, purchaseId, cb) {
+    let query = knex(tblName)
+      .select("purchase_id", "purchase_date", "store_id", "purpose_id", "amount", "receipt_yn")
+      .where({
+        purchase_id: purchaseId,
+      });
 
     query
       .then((row) => {
@@ -61,7 +63,7 @@
 
   //update
   function modify(knex, purchaseId, purchaseData, cb) {
-    let query = knex(tblName).where("id", purchaseId).update({
+    let query = knex(tblName).where({ purchase_id: purchaseId }).update({
       purchase_date: purchaseData[0],
       store_id: purchaseData[1],
       purpose_id: purchaseData[2],
@@ -78,8 +80,8 @@
   }
 
   //delete
-  function remove(knex, purchaseId) {
-    let query = knex(tblName).where("id", purchaseId).update({
+  function remove(knex, purchaseId, cb) {
+    let query = knex(tblName).where({ purchase_id: purchaseId }).update({
       delete_yn: "Y",
     });
 

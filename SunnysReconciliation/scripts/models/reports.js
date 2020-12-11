@@ -37,8 +37,9 @@
 
     const subQuery2 = knex("purchases")
       .where("purchase_date", "like", `${reportYM}%`)
+      .andWhere("delete_yn", "=", "N")
       .groupBy(knex.raw(`substr(purchase_date, 1, 7)`))
-      .select(knex.raw(`substr(purchase_date, 1, 7) as report_ym, sum(amount) as total`));
+      .select(knex.raw(`substr(purchase_date, 1, 7) as report_ym, round(sum(amount),2) as total`));
     // console.log(subQuery2.toSQL());
 
     const query = knex(subQuery1.as("t1"))

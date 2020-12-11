@@ -7,13 +7,15 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../node_modules/jquery-ui-dist/jquery-ui.min.css" />
     <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
     <link rel="stylesheet" href="../node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" />
 
     <!-- Bootstrap Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script>
-      let $ = require("jquery");
+      let $ = (jQuery = require("jquery"));
+      require("jquery-ui-dist/jquery-ui");
       require("popper.js");
       require("bootstrap");
       require("bootstrap-datepicker");
@@ -43,13 +45,15 @@
         </div>
       </div>
       <div class="row vh-80">
+        <div id="dialog-delete" title="Delete Confirm">Do you really want to delete it?</div>
         <table class="table" id="report-table">
           <thead>
             <tr class="d-flex">
               <th class="col-1">No</th>
-              <th class="col-3">Store</th>
+              <th class="col-2">Date</th>
+              <th class="col-2">Store</th>
               <th class="col-3">Purpose</th>
-              <th class="col-2">Amount</th>
+              <th class="col-1">Amount</th>
               <th class="col-1">Receipt</th>
               <th class="col-1">Edit</th>
               <th class="col-1">Delete</th>
