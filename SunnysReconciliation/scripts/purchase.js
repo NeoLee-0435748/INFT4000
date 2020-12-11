@@ -2,6 +2,7 @@
   //imports & variables ---------------------------------------------------------
   const { ipcRenderer, remote } = require("electron"); //deconstruct imports
   const queryString = require("querystring");
+  const Joi = require("joi-browser");
 
   //declaration -----------------------------------------------------------------
   const btnAdd = $("#btn-add");
@@ -12,6 +13,7 @@
   const inputAmount = $("#purchaseAmount");
   const radioReceiptYes = $("#purchaseReceiptYes");
   const radioReceiptNo = $("#purchaseReceiptNo");
+  const dialogValid = $("#dialog-valid");
   let editPurchaseId = null;
 
   //IPC event functions ---------------------------------------------------------
@@ -67,11 +69,34 @@
 
   //local event functions (call index.js) ---------------------------------------
   btnAdd.click((e) => {
+    //validation
+    let data = {
+      Date: datePurchase.val().trim(),
+      Amount: inputAmount.val().trim(),
+    };
+
+    const schemaPurchase = Joi.object().keys({
+      Date: Joi.date().required(),
+      Amount: Joi.number().min(0.1).max(300.0).required(),
+    });
+
+    let result = Joi.validate(data, schemaPurchase, {
+      abortEarly: false,
+    });
+
+    if (result.error) {
+      // console.log(result);
+      const errMsg = result.error.details.map((err) => err.message + "\n\n");
+      dialogValid.dialog("open").html(errMsg);
+      return;
+    }
+
+    //processing
     const purchaseData = [
-      datePurchase.val(),
+      datePurchase.val().trim(),
       selectStore.val(),
       selectPurpose.val(),
-      inputAmount.val(),
+      inputAmount.val().trim(),
       radioReceiptYes.is(":checked") ? "Y" : "N",
     ];
 
@@ -96,6 +121,15 @@
     console.log(editPurchaseId);
 
     getAllSettings();
+  });
+
+  dialogValid.dialog({
+    autoOpen: false,
+    buttons: {
+      OK: function () {
+        $(this).dialog("close");
+      },
+    },
   });
 
   function getAllSettings() {

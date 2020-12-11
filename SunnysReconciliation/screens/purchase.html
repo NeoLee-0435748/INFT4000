@@ -7,11 +7,13 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../node_modules/jquery-ui-dist/jquery-ui.min.css" />
 
     <!-- Bootstrap Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script>
-      let $ = require("jquery");
+      let $ = (jQuery = require("jquery"));
+      require("jquery-ui-dist/jquery-ui");
       require("popper.js");
       require("bootstrap");
     </script>
@@ -73,6 +75,7 @@
         </div>
       </div>
     </div>
+    <div id="dialog-valid" title="Validation Error"></div>
 
     <script src="../scripts/purchase.js"></script>
   </body>

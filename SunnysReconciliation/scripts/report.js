@@ -50,11 +50,11 @@
     });
 
     totalAmount.val(totalData[0].total);
-
   });
 
   //local event functions (call index.js) ---------------------------------------
   btnPrint.click((e) => {
+    alert("This function is under construction now!!!");
     ipcRenderer.send("create:report", searchYM); //send to index.js
   });
 

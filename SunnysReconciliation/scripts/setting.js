@@ -1,6 +1,7 @@
 (() => {
   //imports & variables ---------------------------------------------------------
   const { ipcRenderer } = require("electron"); //deconstruct imports
+  const Joi = require("joi-browser");
 
   //declaration -----------------------------------------------------------------
   const btnAddStore = $("#btn-add-store");
@@ -14,6 +15,7 @@
   const dialogStore = $("#dialog-store");
   const selectPurpose = $("#deletePurpose");
   const dialogPurpose = $("#dialog-purpose");
+  const dialogValid = $("#dialog-valid");
 
   //IPC event functions ---------------------------------------------------------
   //catch all settings (caller: index.js)
@@ -56,7 +58,26 @@
 
   //local event functions (call index.js) ---------------------------------------
   btnAddStore.click((e) => {
-    ipcRenderer.send("add:store", inputStore.val());
+    let store = inputStore.val().trim();
+    let data = {
+      Store: store,
+    };
+
+    const schemaStore = Joi.object().keys({
+      Store: Joi.string().min(5).max(20).required(),
+    });
+
+    let result = Joi.validate(data, schemaStore, {
+      abortEarly: false,
+    });
+
+    if (result.error) {
+      // console.log(result);
+      dialogValid.dialog("open").html(result.error.details[0].message);
+      return;
+    }
+
+    ipcRenderer.send("add:store", store);
   });
 
   btnDelStore.click((e) => {
@@ -64,7 +85,26 @@
   });
 
   btnAddPurpose.click((e) => {
-    ipcRenderer.send("add:purpose", inputPurpose.val());
+    let purpose = inputPurpose.val().trim();
+    let data = {
+      Purpose: purpose,
+    };
+
+    const schemaPurpose = Joi.object().keys({
+      Purpose: Joi.string().min(5).max(100).required(),
+    });
+
+    let result = Joi.validate(data, schemaPurpose, {
+      abortEarly: false,
+    });
+
+    if (result.error) {
+      // console.log(result);
+      dialogValid.dialog("open").html(result.error.details[0].message);
+      return;
+    }
+
+    ipcRenderer.send("add:purpose", purpose);
   });
 
   btnDelPurpose.click((e) => {
@@ -105,6 +145,15 @@
         $(this).dialog("close");
       },
       No: function () {
+        $(this).dialog("close");
+      },
+    },
+  });
+
+  dialogValid.dialog({
+    autoOpen: false,
+    buttons: {
+      OK: function () {
         $(this).dialog("close");
       },
     },
