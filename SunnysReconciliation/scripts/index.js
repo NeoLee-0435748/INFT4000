@@ -17,7 +17,7 @@
     mainWindow = new BrowserWindow({
       width: 1080,
       height: 720,
-      icon: "./icons/favicon.ico",
+      icon: "./assets/icons/sc_logo.png",
       webPreferences: {
         nodeIntegration: true,
         enableRemoteModule: true,
@@ -38,7 +38,7 @@
     reportWindow = new BrowserWindow({
       width: 1080,
       height: 720,
-      icon: "./icons/favicon.ico",
+      icon: "./assets/icons/sc_logo.png",
       title: "Purchase Add/Edit",
       webPreferences: {
         nodeIntegration: true,
@@ -210,7 +210,7 @@
       modal: true,
       width: 820,
       height: 550,
-      icon: "./icons/favicon.ico",
+      icon: "./assets/icons/sc_logo.png",
       title: "Purchase Add/Edit",
       webPreferences: {
         nodeIntegration: true,
@@ -234,7 +234,7 @@
       modal: true,
       width: 600,
       height: 350,
-      icon: "./icons/favicon.ico",
+      icon: "./assets/icons/sc_logo.png",
       title: "Settings",
       webPreferences: {
         nodeIntegration: true,

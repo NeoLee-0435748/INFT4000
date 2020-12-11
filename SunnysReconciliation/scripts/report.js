@@ -28,7 +28,11 @@
       appendTableColumn(reportTable, value, index);
     });
 
-    totalAmount.val(totalData[0].total);
+    if (totalData.length > 0) {
+      totalAmount.val(totalData[0].total);
+    } else {
+      totalAmount.val("");
+    }
   });
 
   //catch get report (caller: index.js)
@@ -49,7 +53,11 @@
       appendTableColumn(reportTable, value, index);
     });
 
-    totalAmount.val(totalData[0].total);
+    if (totalData.length > 0) {
+      totalAmount.val(totalData[0].total);
+    } else {
+      totalAmount.val("");
+    }
   });
 
   //local event functions (call index.js) ---------------------------------------
@@ -146,9 +154,9 @@
 
     dateInput.datepicker().on("changeMonth", function (e) {
       console.log(e);
-      console.log(e.date.getFullYear() + "-" + (e.date.getMonth() + 1));
+      console.log(e.date.getFullYear() + "-" + (e.date.getMonth() < 10 ? "0" : "") + (e.date.getMonth() + 1));
 
-      searchYM = `${e.date.getFullYear()}-${e.date.getMonth() + 1}`;
+      searchYM = `${e.date.getFullYear()}-${e.date.getMonth() < 10 ? "0" : ""}${e.date.getMonth() + 1}`;
       ipcRenderer.send("get:report", searchYM); //send to index.js
     });
   });
