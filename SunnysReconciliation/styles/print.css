@@ -1,0 +1,159 @@
+html {
+  height:100%;
+  width: 100%;
+  display: table;
+  margin: auto;
+}
+
+body {
+  height:95%;
+  width: 95%;
+  display: table-cell;
+  vertical-align: middle;
+  background-color: #d5c67a;
+}
+
+table {
+  width: 100%;
+}
+
+.print {
+  min-height: 100%;
+  height: 100%;
+}
+
+footer {
+  height: 5%;
+}
+
+.vh-80 {
+  height: 80vh;
+}
+
+/* Top part */
+.top#header {
+  width: 90%;
+  margin-top: 3rem;
+}
+
+.top#left {
+  width: 40%;
+}
+
+.top#middle {
+  width: 50%;
+  text-align: center;
+}
+
+.top#right {
+  width: 10%;
+}
+
+/* school name part */
+.school#header {
+  margin-top: 1rem;
+}
+
+.school#title {
+  width: 25%;
+}
+
+.school#name {
+  width: 75%;
+  border-bottom:  1px solid black;
+}
+
+/* purchase list */
+.purchase {
+  border: 1px solid black;
+}
+
+.purchase#header {
+  margin-top: 1rem;
+  border-collapse: collapse;
+}
+
+.purchase thead {
+  font-weight: bold;
+}
+
+.purchase#original {
+  width: 25%;
+  text-align: center;
+}
+
+.purchase#amount {
+  width: 20%;
+  text-align: center;
+}
+
+.purchase#description {
+  width: 40%;
+  text-align: center;
+}
+
+.purchase#receipt {
+  width: 15%;
+  text-align: center;
+}
+
+/* total */
+.total#header {
+  margin-top: 1rem;
+  border-collapse: collapse;
+}
+
+.total#title {
+  width: 85%;
+  padding-right: 4rem;
+  text-align:right;
+}
+
+.total#amount {
+  width: 15%;
+  border-top: double;
+  border-bottom: double;
+  text-align: right;
+  font-weight: bold;
+  font-size: large;
+}
+
+/* date of month */
+.date-of-month {
+  width: 45%;
+  border: 1px solid black;
+}
+
+.date-of-month#header {
+  margin-top: 1rem;
+}
+
+.date-of-month#title {
+  width: 25%;
+  font-weight: bold;
+}
+
+.date-of-month#year-month {
+  width: 20%;
+}
+
+/* employee information */
+.employee#header {
+  margin-top: 2rem;
+  width: 85%;
+}
+
+.employee tr {
+  height: 3rem;
+}
+
+.employee.title {
+  width: 25%;
+  font-weight: bold;
+  font-size: large;
+}
+
+.employee.content {
+  width: 60%;
+  border-bottom: 1px solid black;
+}

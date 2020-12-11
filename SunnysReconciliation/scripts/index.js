@@ -10,6 +10,7 @@
   let reportWindow;
   let purchaseWindow;
   let settingsWindow;
+  let printWindow;
 
   // Decalre windows ------------------------------------------------------------
   //function to create main window
@@ -98,6 +99,10 @@
 
     ipcMain.on("create:report:result", function (e, data, error) {
       reportWindow.webContents.send("create:report:result", data, error);
+    });
+
+    ipcMain.on("open:print", function (e, searchYM) {
+      createPrintWindow(searchYM);
     });
 
     // to Purchase Window
@@ -252,6 +257,30 @@
 
     settingsWindow.on("close", function () {
       settingsWindow = null;
+    });
+  }
+
+  //function to create window for Printing
+  function createPrintWindow(searchYM) {
+    printWindow = new BrowserWindow({
+      parent: mainWindow,
+      modal: true,
+      width: 1024,
+      height: 768,
+      icon: "./assets/icons/sc_logo.png",
+      title: "Print Report",
+      webPreferences: {
+        nodeIntegration: true,
+      },
+    });
+    // printWindow.webContents.openDevTools();
+
+    printWindow.loadFile(path.join(__dirname, "../screens/print.html"), {
+      query: { data: JSON.stringify({ id: searchYM }) },
+    });
+
+    printWindow.on("close", function () {
+      printWindow = null;
     });
   }
 

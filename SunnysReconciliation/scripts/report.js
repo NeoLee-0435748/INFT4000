@@ -62,8 +62,11 @@
 
   //local event functions (call index.js) ---------------------------------------
   btnPrint.click((e) => {
-    alert("This function is under construction now!!!");
-    ipcRenderer.send("create:report", searchYM); //send to index.js
+    if (searchYM) {
+      ipcRenderer.send("open:print", searchYM);
+    } else {
+      alert("Select a report first!");
+    }
   });
 
   btnClose.click((e) => {

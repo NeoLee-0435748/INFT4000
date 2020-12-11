@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Print</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
+
+    <!-- Bootstrap Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>
+      let $ = (jQuery = require("jquery"));
+      require("jquery-ui-dist/jquery-ui");
+      require("popper.js");
+      require("bootstrap");
+      require("bootstrap-datepicker");
+      $(function () {
+        $("#includedFooter").load("footer.html");
+      });
+    </script>
+    <!-- Customizer styles -->
+    <link rel="stylesheet" href="../styles/print.css" />
+  </head>
+  <body>
+    <div class="container-xl print">
+      <!-- top -->
+      <table class="top" id="header">
+        <thead>
+          <tr>
+            <!-- left -->
+            <td class="top" id="left">
+              <img
+                class="top"
+                id="hrce-logo-img"
+                src="../assets/images/hrce_logo_-_horizontal-01.png"
+                width="90%"
+                alt="Halifax Regional Centre for Education"
+              />
+            </td>
+            <!-- middle -->
+            <td class="top" id="middle">
+              <h2>PRE-PRIMARY</h2>
+              <h2>VISA CARD RECONCILIATION</h2>
+            </td>
+          </tr>
+        </thead>
+      </table>
+      <!-- school name -->
+      <table class="school" id="header">
+        <thead>
+          <tr>
+            <!-- title -->
+            <td class="school" id="title">
+              <h3>SCHOOL NAME:</h3>
+            </td>
+            <!-- name -->
+            <td class="school" id="name">
+              <h5>Bedford South School Pre-primary</h5>
+            </td>
+          </tr>
+        </thead>
+      </table>
+      <!-- purchase list -->
+      <table class="purchase" id="header">
+        <thead class="purchase">
+          <tr class="purchase">
+            <!-- original receipts -->
+            <td class="purchase" id="original">ORIGINAL RECEIPTS</td>
+            <!-- amount purchased -->
+            <td class="purchase" id="amount">AMOUNT PURCHASED</td>
+            <!-- description of goods purchased -->
+            <td class="purchase" id="description">DESCRIPTION OF GOODS PURCHASED</td>
+            <!-- receipt attached -->
+            <td class="purchase" id="receipt">RECEIPT ATTACHED</td>
+          </tr>
+        </thead>
+        <tbody class="purchase"></tbody>
+      </table>
+      <!-- total amount -->
+      <table class="total" id="header">
+        <thead>
+          <tr>
+            <!-- title -->
+            <td class="total" id="title"><h4>TOTAL AMOUNT OF RECEIPTS ATTACHED</h4></td>
+            <!-- amount -->
+            <td class="total" id="amount">$100.00</td>
+          </tr>
+        </thead>
+      </table>
+      <!-- date of month -->
+      <table class="date-of-month" id="header">
+        <thead>
+          <tr>
+            <!-- title -->
+            <td class="date-of-month" id="title">Date of month</td>
+            <!-- year and month -->
+            <td class="date-of-month" id="year-month">November</td>
+          </tr>
+        </thead>
+      </table>
+      <!-- employee information -->
+      <table class="employee" id="header">
+        <thead>
+          <tr>
+            <!-- name title -->
+            <td class="employee title" id="name-title">Employee Name</td>
+            <!-- name content -->
+            <td class="employee content" id="name-content"></td>
+          </tr>
+          <tr>
+            <!-- signature title -->
+            <td class="employee title" id="sign-title">Employee Signature</td>
+            <!-- signature content -->
+            <td class="employee content" id="sign-content"></td>
+          </tr>
+          <tr>
+            <!-- date title -->
+            <td class="employee title" id="date-title">Date of Submittal</td>
+            <!-- date content -->
+            <td class="employee content" id="date-content"></td>
+          </tr>
+        </thead>
+      </table>
+    </div>
+
+    <div id="includedFooter"></div>
+    <script src="../scripts/report.js"></script>
+  </body>
+</html>
