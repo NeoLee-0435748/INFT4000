@@ -7,16 +7,13 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
 
     <!-- Bootstrap Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script>
-      let $ = (jQuery = require("jquery"));
-      require("jquery-ui-dist/jquery-ui");
+      let $ = require("jquery");
       require("popper.js");
       require("bootstrap");
-      require("bootstrap-datepicker");
       $(function () {
         $("#includedFooter").load("footer.html");
       });
@@ -64,20 +61,20 @@
         </thead>
       </table>
       <!-- purchase list -->
-      <table class="purchase" id="header">
-        <thead class="purchase">
-          <tr class="purchase">
+      <table class="purchase-list" id="header">
+        <thead class="purchase-list">
+          <tr class="purchase-list">
             <!-- original receipts -->
-            <td class="purchase" id="original">ORIGINAL RECEIPTS</td>
+            <td class="purchase-list" id="original">ORIGINAL RECEIPTS</td>
             <!-- amount purchased -->
-            <td class="purchase" id="amount">AMOUNT PURCHASED</td>
+            <td class="purchase-list" id="amount">AMOUNT PURCHASED</td>
             <!-- description of goods purchased -->
-            <td class="purchase" id="description">DESCRIPTION OF GOODS PURCHASED</td>
+            <td class="purchase-list" id="description">DESCRIPTION OF GOODS PURCHASED</td>
             <!-- receipt attached -->
-            <td class="purchase" id="receipt">RECEIPT ATTACHED</td>
+            <td class="purchase-list" id="receipt">RECEIPT ATTACHED</td>
           </tr>
         </thead>
-        <tbody class="purchase"></tbody>
+        <tbody class="purchase-list"></tbody>
       </table>
       <!-- total amount -->
       <table class="total" id="header">
@@ -127,6 +124,6 @@
     </div>
 
     <div id="includedFooter"></div>
-    <script src="../scripts/report.js"></script>
+    <script src="../scripts/print.js"></script>
   </body>
 </html>

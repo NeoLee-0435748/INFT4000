@@ -97,12 +97,9 @@
       reportWindow.webContents.send("get:report:result", reportData, totalData, error);
     });
 
-    ipcMain.on("create:report:result", function (e, data, error) {
-      reportWindow.webContents.send("create:report:result", data, error);
-    });
-
-    ipcMain.on("open:print", function (e, searchYM) {
-      createPrintWindow(searchYM);
+    // to Print Window
+    ipcMain.on("create:report:result", function (e, masterData, data, error) {
+      printWindow.webContents.send("create:report:result", masterData, data, error);
     });
 
     // to Purchase Window
@@ -158,6 +155,11 @@
       mainWindow.webContents.send("get:report", searchYM);
     });
 
+    ipcMain.on("open:print", function (e, searchYM) {
+      createPrintWindow(searchYM);
+    });
+
+    //<<< From Print window >>>
     ipcMain.on("create:report", function (e, searchYM) {
       mainWindow.webContents.send("create:report", searchYM);
     });
@@ -205,6 +207,31 @@
     //<<< Shared >>>
     ipcMain.on("get:all:settings", function (e, sender) {
       mainWindow.webContents.send("get:all:settings", sender);
+    });
+  }
+
+  //function to create window for Printing
+  function createPrintWindow(searchYM) {
+    printWindow = new BrowserWindow({
+      parent: reportWindow,
+      modal: true,
+      width: 1320,
+      height: 990,
+      icon: "./assets/icons/sc_logo.png",
+      title: "Print Report",
+      webPreferences: {
+        nodeIntegration: true,
+        enableRemoteModule: true,
+      },
+    });
+    // printWindow.webContents.openDevTools();
+
+    printWindow.loadFile(path.join(__dirname, "../screens/print.html"), {
+      query: { data: JSON.stringify({ yyyymm: searchYM }) },
+    });
+
+    printWindow.on("close", function () {
+      printWindow = null;
     });
   }
 
@@ -257,30 +284,6 @@
 
     settingsWindow.on("close", function () {
       settingsWindow = null;
-    });
-  }
-
-  //function to create window for Printing
-  function createPrintWindow(searchYM) {
-    printWindow = new BrowserWindow({
-      parent: mainWindow,
-      modal: true,
-      width: 1024,
-      height: 768,
-      icon: "./assets/icons/sc_logo.png",
-      title: "Print Report",
-      webPreferences: {
-        nodeIntegration: true,
-      },
-    });
-    // printWindow.webContents.openDevTools();
-
-    printWindow.loadFile(path.join(__dirname, "../screens/print.html"), {
-      query: { data: JSON.stringify({ id: searchYM }) },
-    });
-
-    printWindow.on("close", function () {
-      printWindow = null;
     });
   }
 

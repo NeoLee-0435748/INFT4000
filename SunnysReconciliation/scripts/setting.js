@@ -20,7 +20,7 @@
   //IPC event functions ---------------------------------------------------------
   //catch all settings (caller: index.js)
   ipcRenderer.on("get:all:settings:result", (e, data, error) => {
-    // console.log(data);
+    console.log(data);
     //Stores
     selectStore.html("");
     $.each(data[0], function (key, value) {
@@ -72,7 +72,7 @@
     });
 
     if (result.error) {
-      // console.log(result);
+      console.log(result);
       dialogValid.dialog("open").html(result.error.details[0].message);
       return;
     }
@@ -99,7 +99,7 @@
     });
 
     if (result.error) {
-      // console.log(result);
+      console.log(result);
       dialogValid.dialog("open").html(result.error.details[0].message);
       return;
     }

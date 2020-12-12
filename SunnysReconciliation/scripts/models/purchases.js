@@ -37,7 +37,7 @@
 
     query
       .then((row) => {
-        // console.log(row);
+        console.log(row);
         cb(row, null);
       })
       .catch((error) => cb(null, error));

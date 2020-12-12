@@ -48,7 +48,7 @@
   //catch get all settings (caller: index.js)
   ipcRenderer.on("get:all:settings:result", (e, data, error) => {
     console.log("get:all:settings:result");
-    // console.log(data);
+    console.log(data);
     //Stores
     selectStore.html("");
     $.each(data[0], function (key, value) {
@@ -85,7 +85,7 @@
     });
 
     if (result.error) {
-      // console.log(result);
+      console.log(result);
       const errMsg = result.error.details.map((err) => err.message + "\n\n");
       dialogValid.dialog("open").html(errMsg);
       return;

@@ -63,6 +63,7 @@
   //local event functions (call index.js) ---------------------------------------
   btnPrint.click((e) => {
     if (searchYM) {
+      console.log("open:print");
       ipcRenderer.send("open:print", searchYM);
     } else {
       alert("Select a report first!");
@@ -157,9 +158,9 @@
 
     dateInput.datepicker().on("changeMonth", function (e) {
       console.log(e);
-      console.log(e.date.getFullYear() + "-" + (e.date.getMonth() < 10 ? "0" : "") + (e.date.getMonth() + 1));
+      console.log(e.date.getFullYear() + "-" + (e.date.getMonth() < 9 ? "0" : "") + (e.date.getMonth() + 1));
 
-      searchYM = `${e.date.getFullYear()}-${e.date.getMonth() < 10 ? "0" : ""}${e.date.getMonth() + 1}`;
+      searchYM = `${e.date.getFullYear()}-${e.date.getMonth() < 9 ? "0" : ""}${e.date.getMonth() + 1}`;
       ipcRenderer.send("get:report", searchYM); //send to index.js
     });
   });

@@ -1,5 +1,5 @@
 html {
-  height:100%;
+  height:95%;
   width: 100%;
   display: table;
   margin: auto;
@@ -64,36 +64,40 @@ footer {
 }
 
 /* purchase list */
-.purchase {
+.purchase-list {
   border: 1px solid black;
 }
 
-.purchase#header {
+.purchase-list#header {
   margin-top: 1rem;
   border-collapse: collapse;
 }
 
-.purchase thead {
+.purchase-list thead {
   font-weight: bold;
 }
 
-.purchase#original {
+.purchase-list#original {
   width: 25%;
   text-align: center;
 }
 
-.purchase#amount {
+.purchase-list#amount {
   width: 20%;
   text-align: center;
 }
 
-.purchase#description {
+.purchase-list#description {
   width: 40%;
   text-align: center;
 }
 
-.purchase#receipt {
+.purchase-list#receipt {
   width: 15%;
+  text-align: center;
+}
+
+.td-align-center {
   text-align: center;
 }
 
@@ -135,6 +139,7 @@ footer {
 
 .date-of-month#year-month {
   width: 20%;
+  padding-left: 1rem;
 }
 
 /* employee information */

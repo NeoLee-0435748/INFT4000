@@ -29,9 +29,8 @@
     modelPurchases.remove(knex, purchaseId, (err) => {
       console.log(err);
       if (!err) {
-        modelReports.selectReport(knex, searchYM, (data, err) => {
+        modelReports.selectReport(knex, searchYM, (reportData, err) => {
           console.log(err);
-          let reportData = data;
           modelReports.selectNewMaster(knex, searchYM, (data, err) => {
             console.log(err);
             ipcRenderer.send("delete:purchase:result", reportData, data, err);
@@ -44,9 +43,8 @@
   //catch search report (caller: index.js)
   ipcRenderer.on("get:report", (e, searchYM) => {
     console.log("get:report => " + searchYM);
-    modelReports.selectReport(knex, searchYM, (data, err) => {
+    modelReports.selectReport(knex, searchYM, (reportData, err) => {
       console.log(err);
-      let reportData = data;
       modelReports.selectNewMaster(knex, searchYM, (data, err) => {
         console.log(err);
         ipcRenderer.send("get:report:result", reportData, data, err);
@@ -57,18 +55,55 @@
   //catch make report for printing (caller: index.js)
   ipcRenderer.on("create:report", (e, searchYM) => {
     console.log("create:report => " + searchYM);
-    modelReports.selectNewMaster(knex, searchYM, (data, err) => {
-      console.log(err);
-      if (data) {
-        modelReports.createMaster(knex, data, (err) => {
+    let createResult = false;
+    modelReports.selectNewMaster(knex, searchYM, (newMasterData, err) => {
+      if (newMasterData) {
+        console.log("after: selectNewMaster");
+        modelReports.createMaster(knex, newMasterData[0], (err) => {
+          console.log("after: createMaster");
           if (!err) {
-            modelReports.createDetail();
+            modelReports.selectReport(knex, searchYM, (reportsData, err) => {
+              console.log("after: selectReport");
+              if (!err) {
+                reportsData.forEach((report, idx) => {
+                  const reportDetail = {
+                    report_ym: newMasterData[0].report_ym,
+                    report_seq: newMasterData[0].report_seq,
+                    seq_no: idx + 1,
+                    store_name: report.store_name,
+                    purpose_name: report.purpose_name,
+                    amount: report.amount,
+                    receipt_yn: report.receipt_yn,
+                  };
+
+                  modelReports.createDetail(knex, reportDetail, (err) => {
+                    console.log("after: createDetail");
+                    if (!err && reportsData.length === idx + 1) {
+                      // select report detail
+                      modelReports.selectDetail(
+                        knex,
+                        newMasterData[0].report_ym,
+                        newMasterData[0].report_seq,
+                        (data, err) => {
+                          if (!err) {
+                            console.log("after: selectDetail");
+                            ipcRenderer.send("create:report:result", newMasterData, data, err);
+                          } else {
+                            console.log("There is an error!!!");
+                          }
+                        }
+                      );
+                    }
+                  });
+                });
+              }
+            });
+
+            createResult = true;
           }
         });
       }
     });
-
-    // ipcRenderer.send("create:report:result", data, err);
   });
 
   //<<< Purchase window >>>
@@ -100,14 +135,14 @@
     let allSettings = [];
 
     modelStores.selectAll(knex, (data, err) => {
-      // console.log(data);
+      console.log(data);
       allSettings.push(data);
 
       modelPurposes.selectAll(knex, (data, err) => {
-        // console.log(data);
+        console.log(data);
         allSettings.push(data);
 
-        // console.log(allSettings);
+        console.log(allSettings);
         ipcRenderer.send("get:all:settings:result", allSettings, sender, err);
       });
     });
